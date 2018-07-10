@@ -1,203 +1,65 @@
 $(document).ready(function(){
-  
+  // for each tile, blur and show text on enter
   $( ".pic" ).each(function() {
     $(this).on("mouseenter", function(event){
       $("#imgText" + $(this).attr('data-value')).css("opacity", "100")
       $("#" + this.id + " img").css("filter", "blur(10px)")
     });
+    $(this).on("mouseleave", function(event){
+      $(".imgText").css("opacity", "0")
+      $(".pic img").css("filter", "none")
+    });
   });
   
- /* $("#picOne").mouseenter(function(){
-    $("#imgTextOne").css("opacity", "100")
-    $("#picOne img").css("filter", "blur(10px)")
+  // make array of channels
+  var channels = ["syndicate", "freecodecamp", "riotgames", "summit1g", "imaqtpie", "nightblue3"];
+  // loop through each channel
+  $(channels).each(function(i){
     
-  })
-  
-  $("#picTwo").mouseenter(function(){
-    $("#imgTextTwo").css("opacity", "100")
-    $("#picTwo img").css("filter", "blur(10px)")
+    //api urls for user details and stream details
+    let urlUser = "https://wind-bow.glitch.me/twitch-api/users/" + channels[i];
+    let urlStream = "https://wind-bow.glitch.me/twitch-api/streams/" + channels[i];
     
-  })
-  
-  $("#picThree").mouseenter(function(){
-    $("#imgTextThree").css("opacity", "100")
-    $("#picThree img").css("filter", "blur(10px)")
-    
-  })
-  
-  $("#picFour").mouseenter(function(){
-    $("#imgTextFour").css("opacity", "100")
-    $("#picFour img").css("filter", "blur(10px)")
-    
-  })
-  
-  $("#picFive").mouseenter(function(){
-    $("#imgTextFive").css("opacity", "100")
-    $("#picFive img").css("filter", "blur(10px)")
-    
-  })
-  
-  $("#picSix").mouseenter(function(){
-    $("#imgTextSix").css("opacity", "100")
-    $("#picSix img").css("filter", "blur(10px)")
-    
-  }) */
-  
- $(".pic").mouseleave(function(){
-    $(".imgText").css("opacity", "0")
-   $(".pic img").css("filter", "none")
-  })
-
-    
-  
-  //Syndicate JSON requests
-  
-  $.getJSON("https://wind-bow.glitch.me/twitch-api/users/syndicate", function(x){
-    $("#synd").html(x.display_name + "<i class='fa fa-circle' id='faOne' aria-hidden='true'>");
-    $("#picOne img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/syndicate", function(y){
-    if (y.stream){
-     
-      $("#imgTextOne").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picOne").addClass("online");
+    // make api call for user
+    $.getJSON(urlUser, function(x){
       
+      // change the username and img to ones returned by API
+      $("#" + channels[i] + " p").html(x.display_name + "<i class='fa fa-circle' id='faOne' aria-hidden='true'>");
+      $("#" + channels[i] + " img").attr("src", x.logo);
       
-      $("#faOne").css("color", "green");
-    } else {
-       $("#imgTextOne").html("User is currently offline");
-      $("#faOne").css("color", "red");
-      $("#picOne").addClass("offline");
-    }
-  })
-    
-  })   
-  
-  
-  //FCC JSON requests
-  
-  
-  $.getJSON("https://wind-bow.glitch.me/twitch-api/users/freecodecamp", function(x){
-    $("#fcc").html(x.display_name + "<i class='fa fa-circle' id='faTwo' aria-hidden='true'>");
-    $("#picTwo img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/freecodecamp", function(y){
-    if (y.stream){
-   
-      $("#imgTextTwo").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picTwo").addClass("online");
-      
-      
-      $("#faTwo").css("color", "green");
-    } else {
-         $("#imgTextTwo").html("User is currently offline");
-      $("#faTwo").css("color", "red");
-      $("#picTwo").addClass("offline");
-    }
-  })
-    
-  })   
-  
-  //RiotGames JSON requests
-  
-  $.getJSON("https://wind-bow.glitch.me/twitch-api/users/riotgames", function(x){
-    $("#riot").html(x.display_name + "<i class='fa fa-circle' id='faThree' aria-hidden='true'>");
-    $("#picThree img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/riotgames", function(y){
-    if (y.stream){
-   
-      $("#imgTextThree").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picThree").addClass("online");
-      
-      $("#faThree").css("color", "green");
-    } else {
-         $("#imgTextThree").html("User is currently offline");
-      $("#faThree").css("color", "red");
-      $("#picThree").addClass("offline");
-    }
-  })
-    
-  })   
-  
- // Summit JSON requests
-  
-    $.getJSON("https://wind-bow.glitch.me/twitch-api/users/summit1g", function(x){
-    $("#summit").html(x.display_name + "<i class='fa fa-circle' id='faFour' aria-hidden='true'>");
-    $("#picFour img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/summit1g", function(y){
-    if (y.stream){
-   
-      $("#imgTextFour").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picFour").addClass("online");
-      
-      $("#faFour").css("color", "green");
-    } else {
-         $("#imgTextFour").html("User is currently offline");
-      $("#faFour").css("color", "red");
-      $("#picFour").addClass("offline");
-    }
-  })
-    
+      // get the api info about the stream
+      $.getJSON(urlStream, function(y){
+        
+        // if the user is currently streaming
+        if (y.stream){
+        
+          // Update the channel information shown on hover, add 'online' class and change the icon to green
+          $("#" + channels[i] + " span").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
+          $("#" + channels[i]).addClass("online");
+          $("#" + channels[i] + " i").css("color", "green");
+        // if they are not streaming, update info, image and icon to offline  
+        } else {
+          $("#" + channels[i] + " span").html("User is currently offline");
+          $("#" + channels[i] + " i").css("color", "red");
+          $("#" + channels[i]).addClass("offline");
+        }
+      })
+    })
   })
   
-  //esl_csgo JSON requests
-  
-    $.getJSON("https://wind-bow.glitch.me/twitch-api/users/imaqtpie", function(x){
-    $("#imaqtpie").html(x.display_name + "<i class='fa fa-circle' id='faFive' aria-hidden='true'>");
-    $("#picFive img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/imaqtpie", function(y){
-    if (y.stream){
-   
-      $("#imgTextFive").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picFive").addClass("online");
-      
-      $("#faFive").css("color", "green");
-    } else {
-         $("#imgTextFive").html("User is currently offline");
-      $("#faFive").css("color", "red");
-      $("#picFive").addClass("offline");
-    }
-  })
-    
-  })  
-  
-  //nightblue3 JSON requests
-  
-    $.getJSON("https://wind-bow.glitch.me/twitch-api/users/nightblue3", function(x){
-    $("#night").html(x.display_name + "<i class='fa fa-circle' id='faSix' aria-hidden='true'>");
-    $("#picSix img").attr("src", x.logo);
-    
-     $.getJSON("https://wind-bow.glitch.me/twitch-api/streams/nightblue3", function(y){
-    if (y.stream){
-   
-      $("#imgTextSix").html("Currently streaming:</br></br><span class='title'>" + y.stream.game + "</span></br></br>" + "Number of viewers:</br></br><span class='title'>" + y.stream.viewers + "</span></br></br>");
-      $("#picSix").addClass("online");
-      
-      $("#faSix").css("color", "green");
-    } else {
-         $("#imgTextSix").html("User is currently offline");
-      $("#faSix").css("color", "red");
-      $("#picSix").addClass("offline");
-    }
-  })
-    
-  })  
- 
+  // button to display all  
   $(".btn-primary").on("click", function(){
     $(".offline").css("display", "block");
-   $(".online").css("display", "block");
+    $(".online").css("display", "block");
   })
-    
+ // button for online  
  $(".btn-success").on("click", function(){
    $(".offline").css("display", "none");
    $(".online").css("display", "block");
  })
-  
-  $(".btn-danger").on("click", function(){
+ // button for offline 
+ $(".btn-danger").on("click", function(){
    $(".online").css("display", "none");
    $(".offline").css("display", "block");
-   })
+  })
 });
